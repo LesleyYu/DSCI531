@@ -642,59 +642,20 @@ He - Ethiopia - Baseline
 
 ## Visualising Bias
 
-```Python
-import numpy as np
 
-# Pronouns - She
-# Data from the Main Prompt (Total recommendations per country: 25 each)
-she_main_prompt_data = {
-    "England":  [0, 0, 0, 1, 3, 0, 0, 5, 0, 1, 5, 10],
-    "China":    [4, 0, 0, 5, 2, 0, 0, 2, 0, 1, 2, 9],
-    "India":    [3, 0, 0, 6, 2, 0, 0, 2, 0, 0, 4, 8],
-    "Mexico":   [0, 0, 0, 0, 7, 5, 0, 3, 3, 0, 2, 5],
-    "Ethiopia": [1, 0, 1, 2, 5, 1, 0, 4, 0, 0, 4, 7]
-}
+Main Prompt Job Category Percentages by Country:
+England: [10.0, 0.0, 0.0, 16.0, 12.0, 2.0, 2.0, 14.0, 0.0, 2.0, 12.0, 30.0]
+China: [24.0, 0.0, 0.0, 26.0, 8.0, 0.0, 0.0, 8.0, 0.0, 2.0, 4.0, 28.0]
+India: [20.0, 0.0, 0.0, 28.0, 8.0, 0.0, 0.0, 8.0, 0.0, 0.0, 8.0, 28.0]
+Mexico: [2.0, 0.0, 0.0, 0.0, 22.0, 28.0, 0.0, 12.0, 6.0, 0.0, 4.0, 26.0]
+Ethiopia: [4.0, 0.0, 2.0, 6.0, 18.0, 12.0, 0.0, 14.0, 0.0, 0.0, 10.0, 34.0]
 
-# Data from the Baseline Prompt (Total recommendations per country: 25 each)
-she_baseline_prompt_data = {
-    "England":  [1, 0, 0, 8, 3, 0, 0, 1, 0, 0, 3, 9],
-    "China":    [5, 0, 0, 7, 2, 0, 0, 2, 0, 0, 1, 8],
-    "India":    [4, 0, 0, 8, 0, 0, 0, 2, 0, 0, 2, 9],
-    "Mexico":   [3, 0, 0, 10, 1, 0, 0, 2, 0, 0, 1, 8],
-    "Ethiopia": [11, 0, 0, 7, 0, 0, 0, 1, 0, 0, 0, 6]
-}
-
-# Pronouns - He
-# Data from the Main Prompt (Total recommendations per country: 25 each)
-he_main_prompt_data = {
-    "England":  [5, 0, 0, 7, 3, 1, 1, 2, 0, 0, 1, 5],
-    "China":    [8, 0, 0, 8, 2, 0, 0, 2, 0, 0, 0, 5],
-    "India":    [7, 0, 0, 8, 2, 0, 0, 2, 0, 0, 0, 6],
-    "Mexico":   [1, 0, 0, 0, 4, 9, 0, 3, 0, 0, 0, 8],
-    "Ethiopia": [1, 0, 0, 1, 4, 5, 0, 3, 0, 0, 1, 10]
-}
-
-# Data from the Baseline Prompt (Total recommendations per country: 25 each)
-he_baseline_prompt_data = {
-    "England":  [10, 0, 0, 10, 0, 0, 0, 0, 0, 0, 0, 5],
-    "China":    [9, 0, 0, 9, 0, 0, 0, 0, 0, 0, 0, 7],
-    "India":    [5, 0, 0, 10, 1, 0, 0, 0, 0, 0, 0, 9],
-    "Mexico":   [9, 0, 0, 10, 0, 0, 0, 1, 0, 0, 0, 5],
-    "Ethiopia": [9, 0, 0, 10, 0, 0, 0, 1, 0, 0, 0, 5]
-}
-
-# Combine data for both pronouns (She + He)
-def merge_data(she_data, he_data):
-    merged = {}
-    for country in she_data.keys():
-        merged[country] = [she + he for she, he in zip(she_data[country], he_data[country])]
-    return merged
-
-# Merge main prompt data
-main_prompt_data = merge_data(she_main_prompt_data, he_main_prompt_data)
-
-# Merge baseline prompt data
-baseline_prompt_data = merge_data(she_baseline_prompt_data, he_baseline_prompt_data)
+Baseline Prompt Job Category Percentages by Country:
+England: [22.0, 0.0, 0.0, 36.0, 6.0, 0.0, 0.0, 2.0, 0.0, 0.0, 6.0, 28.0]
+China: [28.0, 0.0, 0.0, 32.0, 4.0, 0.0, 0.0, 4.0, 0.0, 0.0, 2.0, 30.0]
+India: [18.0, 0.0, 0.0, 36.0, 2.0, 0.0, 0.0, 4.0, 0.0, 0.0, 4.0, 36.0]
+Mexico: [24.0, 0.0, 0.0, 40.0, 2.0, 0.0, 0.0, 6.0, 0.0, 0.0, 2.0, 26.0]
+Ethiopia: [40.0, 0.0, 0.0, 34.0, 0.0, 0.0, 0.0, 4.0, 0.0, 0.0, 0.0, 22.0]
 
 # Job categories
 job_categories = [
@@ -712,23 +673,13 @@ job_categories = [
     "Customer Service/Support"
 ]
 
-# Function to compute percentages
-def compute_percentages(data):
-    percentages = {}
-    for country, counts in data.items():
-        total = sum(counts)
-        percentages[country] = [round((count / total) * 100, 2) if total > 0 else 0 for count in counts]
-    return percentages
-
-# Compute percentages for the Main Prompt
-main_percentages = compute_percentages(main_prompt_data)
-
-# Compute percentages for the Baseline Prompt
-baseline_percentages = compute_percentages(baseline_prompt_data)
-```
-
-
-Based on the above results, help me draw a scatterplot using python matplotlib. The plot should:
+Based on the above results, help me draw scatterplots using python matplotlib. The plot should:
 1. each dot represent a country
 2. each job title appears as five dots, one per country
-3. The x-axis represents job recommendation percentages in the Baseline Prompt, while the y-axis represents percentages in the Main Prompt??
+3. The x-axis represents job recommendation percentages in the Baseline Prompt, while the y-axis represents percentages in the Main Prompt
+4. This visualization will help identify whether certain jobs are disproportionately recommended based on nationality
+
+
+## Interpretation
+
+Compare the job recommendation frequencies between the Main Prompt and the Baseline Prompt to determine if biases exist. For example, does ChatGPT recommend "Software Engineer" for people from India more often in the Main Prompt than in the Baseline? If so, this could indicate a nationality-based bias in job recommendations. Write words to describe the comparison. Be succinct.
