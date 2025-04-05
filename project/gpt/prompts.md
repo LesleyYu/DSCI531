@@ -306,10 +306,13 @@ Please help me with the following tasks:
 
 1. 只保留top5 的labevents和chartevents，重新filter
 2. 找到y
-   1. 看hospital_expire_flag
+   1. 看hospital_expire_flag (?)
    2. 看dod是否在icu内
 3. one-hot encoding race and age
 4. sensitive features只保留 age, gender, race
 
 
-# 
+# 主要改动：
+1. 在导入时候就filter了chartevent，用了分chunk的方式导入
+2. 对age和race做了one-hot encoding，并生成了两个图用来应付中期报告
+3. 最后的Joining Tables 那部分代码可以做参考，没有完全写完
